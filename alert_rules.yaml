@@ -1,0 +1,29 @@
+groups:
+- name: CPU Alerts
+  rules:
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 70
+    for: 2m  # Алерт сработает, если условие держится 2 минуты
+    labels:
+      severity: warning  # Уровень важности
+    annotations:
+      summary: "Высокая загрузка CPU на {{ $labels.instance }}"
+      description: "Средняя загрузка CPU за 5 минут выше 70% (текущее значение: {{ $value }})"
+
+  - alert: LowMemory
+    expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Мало свободной памяти на {{ $labels.instance }}"
+      description: "Свободно менее 10% RAM (текущее значение: {{ $value }}%)"
+
+  - alert: LowDiskSpace
+    expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Мало места на диске на {{ $labels.instance }}"
+      description: "Свободно менее 10% на / (текущее значение: {{ $value }}%)"
