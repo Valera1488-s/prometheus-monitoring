@@ -1,0 +1,20 @@
+---
+# Плейбук для развертывания Prometheus и Grafana
+- name: Deploy Prometheus and Grafana
+  hosts: monitoring  # Указываем, что плейбук будет выполняться на хостах из группы "monitoring"
+  tasks:  # Начинаем список задач, которые будут выполняться
+    - name: Ensure Docker is installed
+      apt:  # Используем модуль apt для установки пакетов
+        name: docker.io  # Указываем, что нужно установить пакет docker.io
+        state: present  # Указываем, что пакет должен быть установлен 
+      become: true
+
+    - name: Copy docker-compose.yml
+      copy:  # Используем модуль copy для копирования файлов
+        src: ../docker-compose.yml  # Указываем путь к исходному файлу (относительно текущего местоположения)
+        dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/docker-compose.yml  # Указываем путь, куда файл будет скопирован
+
+    - name: Start services
+      command: docker compose up -d  # Выполняем команду для запуска сервисов в фоновом режиме
+      args:  # Указываем дополнительные аргументы для команды
+        chdir: /home/{{ ansible_user }}/prometheus-monitoring-demo  # Указываем директорию, в которой будет выполняться команда
