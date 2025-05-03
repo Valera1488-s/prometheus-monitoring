@@ -1,0 +1,16 @@
+# Этот workflow автоматически проверяет твой Ansible playbook на ошибки и best practices
+name: Ansible Lint
+
+# Запускать workflow при каждом push или pull request
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest  # Используем виртуальную машину Ubuntu
+    steps:
+      - uses: actions/checkout@v3  # Клонируем твой репозиторий
+      - name: Установка Ansible и ansible-lint
+        run: |
+          pip install ansible ansible-lint  # Устанавливаем необходимые инструменты
+      - name: Проверка playbook
+        run: ansible-lint ansible/deploy.yml  # Запускаем проверку твоего playbook
