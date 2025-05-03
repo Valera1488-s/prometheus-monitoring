@@ -8,7 +8,7 @@
     - name: Ensure Docker is installed
       ansible.builtin.apt:  # Используем FQCN для модуля apt (best practice)
         name: docker.io  # Указываем, что нужно установить пакет docker.io
-        state: present # Указываем, что пакет должен быть установлен 
+        state: present # Указываем, что пакет должен быть установлен
       become: true  # Выполняем задачу с повышенными правами
 
     - name: Copy docker-compose.yml
