@@ -1,20 +1,24 @@
 ---
 # Плейбук для развертывания Prometheus и Grafana
+
 - name: Deploy Prometheus and Grafana
   hosts: monitoring  # Указываем, что плейбук будет выполняться на хостах из группы "monitoring"
   tasks:  # Начинаем список задач, которые будут выполняться
+
     - name: Ensure Docker is installed
-      apt:  # Используем модуль apt для установки пакетов
+      ansible.builtin.apt:  # Используем FQCN для модуля apt (best practice)
         name: docker.io  # Указываем, что нужно установить пакет docker.io
         state: present  # Указываем, что пакет должен быть установлен 
-      become: true
+      become: true  # Выполняем задачу с повышенными правами
 
     - name: Copy docker-compose.yml
-      copy:  # Используем модуль copy для копирования файлов
-        src: ../docker-compose.yml  # Указываем путь к исходному файлу (относительно текущего местоположения)
-        dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/docker-compose.yml  # Указываем путь, куда файл будет скопирован
+      ansible.builtin.copy:  # Используем FQCN для модуля copy
+        src: ../docker-compose.yml  # Путь к исходному файлу (относительно текущей папки)
+        dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/docker-compose.yml  # Куда копировать файл
+        mode: '0644'  # Устанавливаем права доступа к файлу (best practice)
 
     - name: Start services
-      command: docker compose up -d  # Выполняем команду для запуска сервисов в фоновом режиме
-      args:  # Указываем дополнительные аргументы для команды
-        chdir: /home/{{ ansible_user }}/prometheus-monitoring-demo  # Указываем директорию, в которой будет выполняться команда
+      ansible.builtin.command: docker compose up -d  # Используем FQCN для модуля command
+      args:
+        chdir: /home/{{ ansible_user }}/prometheus-monitoring-demo  # Выполняем команду в нужной директории
+      changed_when: false  # Указываем, что команда не меняет состояние, если сервисы уже запущены (best practice)
