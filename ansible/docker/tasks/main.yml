@@ -1,0 +1,26 @@
+---
+# Установка Docker
+- name: Установить Docker
+  ansible.builtin.apt:
+    name: docker.io
+    state: present
+  become: true
+
+# (по желанию) Убедиться, что сервис Docker запущен
+- name: Убедиться, что сервис Docker запущен
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+- name: Копировать docker-compose.yml
+  ansible.builtin.copy:
+    src: ../../docker-compose.yml
+    dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/docker-compose.yml
+    mode: '0644'
+
+- name: Запустить сервисы через Docker Compose
+  ansible.builtin.command: docker compose up -d
+  args:
+    chdir: /home/{{ ansible_user }}/prometheus-monitoring-demo
+  changed_when: false

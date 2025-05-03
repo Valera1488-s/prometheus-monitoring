@@ -1,0 +1,14 @@
+---
+# Копирование конфига Prometheus
+- name: Копировать конфиг prometheus.yml
+  ansible.builtin.copy:
+    src: ../../prometheus.yml
+    dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/prometheus.yml
+    mode: '0644'
+
+# (по желанию) Копирование alert_rules.yaml
+- name: Копировать alert_rules.yaml
+  ansible.builtin.copy:
+    src: ../../alert_rules.yaml
+    dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/alert_rules.yaml
+    mode: '0644'

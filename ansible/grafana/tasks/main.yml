@@ -1,0 +1,8 @@
+---
+# (Если есть кастомные дашборды или конфиги — копировать их сюда)
+# Пример:
+# - name: Копировать дашборд Grafana
+#   ansible.builtin.copy:
+#     src: ../../grafana-dashboard.json
+#     dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/grafana-dashboard.json
+#     mode: '0644'

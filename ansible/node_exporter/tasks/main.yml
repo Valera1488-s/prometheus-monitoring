@@ -1,0 +1,11 @@
+# roles/node_exporter/tasks/main.yml
+
+---
+# (Если есть отдельные конфиги или скрипты для node_exporter — копировать их сюда)
+# Пример:
+# - name: Копировать скрипт запуска node_exporter
+#   ansible.builtin.copy:
+#     src: ../../node_exporter.sh
+#     dest: /home/{{ ansible_user }}/prometheus-monitoring-demo/node_exporter.sh
+#     mode: '0755'---
+# tasks file for node_exporter
