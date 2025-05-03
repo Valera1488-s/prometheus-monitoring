@@ -1,6 +1,5 @@
 ---
 # Плейбук для развертывания Prometheus и Grafana
-
 - name: Deploy Prometheus and Grafana
   hosts: monitoring  # Указываем, что плейбук будет выполняться на хостах из группы "monitoring"
   roles:  # Подключаем роли
@@ -8,5 +7,4 @@
     - prometheus
     - grafana
     - node_exporter
-
 
